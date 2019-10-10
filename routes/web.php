@@ -16,16 +16,5 @@ Route::get('/', function () {
 });
 
 Route::group(['prefix' => 'admin'], function () {
-    Route::get('/', function() {
-        return view('dashboard.index');
-    });
-    Route::get('/students', function() {
-        return view('student.index');
-    });
-    Route::get('/students/add', function() {
-        return view('student.add');
-    });
-    Route::get('/students/detail', function() {
-        return view('student.show');
-    });
+    Route::resource('students', 'StudentController');
 });

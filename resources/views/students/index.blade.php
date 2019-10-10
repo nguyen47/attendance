@@ -1,4 +1,5 @@
 @extends('template.layout')
+@section('title', 'Student')
 @section('css')
 <!-- DataTables -->
 <link rel="stylesheet" href="{{asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.css')}}">
@@ -47,44 +48,35 @@ $(function () {
 
             <div class="card">
             <div class="card-header">
-                <button type="button" class="btn btn-primary"><i class="fas fa-plus"></i> New Student</button>
+                <a href="{{route('students.create')}}" class="btn btn-primary"><i class="fas fa-plus"></i> New Student</a>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
                 <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th>Rendering engine</th>
-                    <th>Browser</th>
-                    <th>Platform(s)</th>
-                    <th>Engine version</th>
-                    <th>CSS grade</th>
+                    <th>Student ID</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Created at</th>
+                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>Trident</td>
-                    <td>Internet
-                    Explorer 4.0
-                    </td>
-                    <td>Win 95+</td>
-                    <td> 4</td>
-                    <td>
-                        <button type="button" class="btn btn-primary"><i class="fas fa-edit"></i></button>
-                        <button type="button" class="btn btn-secondary"><i class="fas fa-info"></i></button>
-                        <button type="button" data-toggle="modal" data-target="#modal-danger" class="btn btn-danger"><i class="fas fa-trash"></i></button>
-                    </td>
-                </tr>
+                @foreach ($students as $student)
+                    <tr>
+                        <td>{{$student->id}}</td>
+                        <td>{{$student->name}}</td>
+                        <td>{{$student->email}}</td>
+                        <td>{{$student->created_at}}</td>
+                        <td>
+                            <button type="button" class="btn btn-primary"><i class="fas fa-edit"></i></button>
+                            <button type="button" class="btn btn-secondary"><i class="fas fa-info"></i></button>
+                            <button type="button" data-toggle="modal" data-target="#modal-danger" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                @endforeach
                 </tbody>
-                <tfoot>
-                <tr>
-                    <th>Rendering engine</th>
-                    <th>Browser</th>
-                    <th>Platform(s)</th>
-                    <th>Engine version</th>
-                    <th>CSS grade</th>
-                </tr>
-                </tfoot>
                 </table>
             </div>
             <!-- /.card-body -->

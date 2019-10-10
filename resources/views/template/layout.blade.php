@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 3 | Blank Page</title>
+  <title>Informatics Academy | @yield('title')</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -13,6 +13,8 @@
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   @yield('css')
+  <!-- Toastr -->
+  <link rel="stylesheet" href="{{asset('assets/plugins/toastr/toastr.min.css')}}">
   <!-- overlayScrollbars -->
   <link rel="stylesheet" href="{{asset('assets/dist/css/adminlte.min.css')}}">
   <!-- Google Font: Source Sans Pro -->
@@ -92,10 +94,41 @@
   <!-- Bootstrap 4 -->
   <script src="{{asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
   @yield('js')
+  <!-- Toastr -->
+  <script src="{{asset('assets/plugins/toastr/toastr.min.js')}}"></script>
   <!-- AdminLTE App -->
   <script src="{{asset('assets/dist/js/adminlte.min.js')}}"></script>
   <!-- AdminLTE for demo purposes -->
   <script src="{{asset('assets/dist/js/demo.js')}}"></script>
+
+  <script>
+    @if(Session::has('message'))
+        const type = "{{ Session::get('alert-type', 'info') }}";
+        switch(type){
+            case 'info':
+                toastr.info("{{ Session::get('message') }}");
+                break;
+            
+            case 'warning':
+                toastr.warning("{{ Session::get('message') }}");
+                break;
+    
+            case 'success':
+            $(document).Toasts('create', {
+                class: 'bg-success', 
+                title: "{{ Session::get('title') }}",
+                autohide: true,
+                delay: 5000,
+                body: "{{ Session::get('message') }}"
+              })
+              break;
+    
+            case 'error':
+                toastr.error("{{ Session::get('message') }}");
+                break;
+        }
+      @endif
+  </script>
 </body>
 
 </html>
