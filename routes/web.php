@@ -17,4 +17,5 @@ Route::get('/', function () {
 
 Route::group(['prefix' => 'admin'], function () {
     Route::resource('students', 'StudentController');
+    Route::get('images/{id}', 'ImageController@index')->name('images.index');
 });

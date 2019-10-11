@@ -3,13 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Uuid;
 
-class Student extends Model
+class Image extends Model
 {
-    /**
-     *  Setup model event hooks
-     */
     public static function boot()
     {
         parent::boot();
@@ -19,8 +15,4 @@ class Student extends Model
     }
     public $incrementing = false;
     protected $guarded = [];
-
-    public function images() {
-        return $this->hasMany('App\Image');
-    }
 }

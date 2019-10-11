@@ -106,15 +106,27 @@
         const type = "{{ Session::get('alert-type', 'info') }}";
         switch(type){
             case 'info':
-                toastr.info("{{ Session::get('message') }}");
-                break;
+            $(document).Toasts('create', {
+                class: 'bg-info', 
+                title: "{{ Session::get('title') }}",
+                autohide: true,
+                delay: 5000,
+                body: "{{ Session::get('message') }}"
+              })
+              break;
             
             case 'warning':
-                toastr.warning("{{ Session::get('message') }}");
-                break;
+            $(document).Toasts('create', {
+                class: 'bg-warning', 
+                title: "{{ Session::get('title') }}",
+                autohide: true,
+                delay: 5000,
+                body: "{{ Session::get('message') }}"
+              })
+              break;
     
             case 'success':
-            $(document).Toasts('create', {
+              $(document).Toasts('create', {
                 class: 'bg-success', 
                 title: "{{ Session::get('title') }}",
                 autohide: true,
@@ -124,8 +136,14 @@
               break;
     
             case 'error':
-                toastr.error("{{ Session::get('message') }}");
-                break;
+              $(document).Toasts('create', {
+                class: 'bg-danger', 
+                title: "{{ Session::get('title') }}",
+                autohide: true,
+                delay: 5000,
+                body: "{{ Session::get('message') }}"
+              })
+              break;
         }
       @endif
   </script>

@@ -68,8 +68,9 @@ $(function () {
                         <td>{{$student->id}}</td>
                         <td>{{$student->name}}</td>
                         <td>{{$student->email}}</td>
-                        <td>{{$student->created_at}}</td>
+                        <td>{{$student->created_at->diffForHumans()}}</td>
                         <td>
+                            <a href="{{route('images.index', $student->id)}}" class="btn btn-primary"><i class="fas fa-image"></i></a>
                             <button type="button" class="btn btn-primary"><i class="fas fa-edit"></i></button>
                             <button type="button" class="btn btn-secondary"><i class="fas fa-info"></i></button>
                             <button type="button" data-toggle="modal" data-target="#modal-danger" class="btn btn-danger"><i class="fas fa-trash"></i></button>
