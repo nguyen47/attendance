@@ -20,4 +20,5 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('images/{id}', 'ImageController@index')->name('images.index');
     Route::post('images/upload/store', 'ImageController@fileStore')->name('images.fileStore');
     Route::post('images/delete', 'ImageController@fileDestroy')->name('images.fileDestroy');
+    Route::get('images/removeSingleImage/{id}', 'ImageController@removeImage')->name('images.removeImage');
 });

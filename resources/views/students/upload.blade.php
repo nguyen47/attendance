@@ -1,10 +1,13 @@
 @extends('template.layout')
 @section('css')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/dropzone.min.css">
+<!-- Ekko Lightbox -->
+<link rel="stylesheet" href="{{asset('assets/plugins/ekko-lightbox/ekko-lightbox.css')}}">
 @endsection
 @section('js')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js"></script>
-
+<!-- Ekko Lightbox -->
+<script src="{{asset('assets/plugins/ekko-lightbox/ekko-lightbox.min.js')}}"></script>
 <script type="text/javascript">
   Dropzone.options.dropzone =
    {
@@ -74,7 +77,7 @@
     <!-- Default box -->
     <div class="card">
       <div class="card-header">
-        <h3 class="card-title">{{$id}}</h3>
+        <h3 class="card-title">{{$student->name}}</h3>
 
         <div class="card-tools">
           <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -89,6 +92,33 @@
           <input type="hidden" name="studentId" value="{{$id}}" />
           @csrf
         </form>
+      </div>
+      <!-- /.card-body -->
+
+      <div class="card-body">
+        <div class="col-12">
+          <div class="card card-primary">
+            <div class="card-header">
+              <div class="card-title">
+                This student have {{count($student->images)}} images
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                @foreach ($images as $image)
+                <div class="col-sm-2">
+                  <a href="https://via.placeholder.com/1200/FFFFFF.png?text=1" data-toggle="lightbox"
+                    data-title="sample 1 - white" data-gallery="gallery">
+                  <img src="{{url("uploads/$id/$image->url")}}" class="img-fluid mb-2"
+                      alt="white sample" />
+                  </a>
+                  <a href="{{route('images.removeImage', $image->id)}}" class="btn btn-danger" style="margin: 0 auto">Remove</a>
+                </div>
+                @endforeach
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <!-- /.card-body -->
       <div class="card-footer">

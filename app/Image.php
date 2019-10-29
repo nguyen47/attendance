@@ -16,4 +16,8 @@ class Image extends Model
     }
     public $incrementing = false;
     protected $guarded = [];
+
+    public function students() {
+        return $this->belongsTo('App\Student', 'student_id');
+    }
 }

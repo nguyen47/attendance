@@ -10,7 +10,9 @@ use File;
 class ImageController extends Controller
 {
     public function index($id) {
-        return view('students.upload', compact('id'));
+        $student = Student::findOrFail($id);
+        $images = $student->images;
+        return view('students.upload', compact('id', 'images', 'student'));
     }
 
     public function fileStore(Request $request){
@@ -30,10 +32,21 @@ class ImageController extends Controller
     public function fileDestroy(Request $request){
         $filename =  $request->get('filename');
         $image = Image::where('url',$filename)->first();
-        $path=public_path().'/uploads/'."$image->student_id/".$filename;
+        $path = public_path().'/uploads/'."$image->student_id/".$filename;
         if (file_exists($path)) {
+            $image->delete();
             File::delete($path);
         }
         return $filename;  
+    }
+
+    public function removeImage($id){
+        $image = Image::findOrFail($id);
+        $path = public_path().'/uploads/'."$image->student_id/".$image->url;
+        if (file_exists($path)) {
+            $image->delete();
+            File::delete($path);
+        }
+        return redirect()->route('images.index', $image->student_id);
     }
 }
