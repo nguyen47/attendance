@@ -46,11 +46,11 @@
                   <label>Password Confirmation</label>
                   <input type="password" class="form-control" placeholder="Password">
                 </div>
-              <!-- /.card-body -->
-              <div class="card-footer">
-                <button type="submit" class="btn btn-primary">Submit</button>
-                <button class="btn btn-default">Cancel</button>
-              </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button class="btn btn-default">Cancel</button>
+                </div>
             </form>
           </div>
           <!-- /.card -->
