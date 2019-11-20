@@ -57,7 +57,8 @@ class MajorController extends Controller
      */
     public function show($id)
     {
-        //
+        $major = Major::findOrFail($id);
+        return view('majors.show', compact('major'));
     }
 
     /**

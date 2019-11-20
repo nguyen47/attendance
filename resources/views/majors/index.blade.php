@@ -49,8 +49,8 @@
                                     <td>
                                         <a href="{{route('majors.edit', $major->id)}}" type="button"
                                             class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                                        <button type="button" class="btn btn-secondary"><i
-                                                class="fas fa-info"></i></button>
+                                        <a href="{{route('majors.show', $major->id)}}" type="button" class="btn btn-secondary"><i
+                                                class="fas fa-info"></i></a>
                                         <a href="javascript:void(0)" type="button" id="deleteItem"
                                             data-id="{{ $major->id }}" class="btn btn-danger"><i
                                                 class="fas fa-trash"></i></a>
