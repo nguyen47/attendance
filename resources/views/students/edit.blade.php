@@ -6,18 +6,17 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>New Student</h1>
+          <h1>Edit Student</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active">New Student</li>
+            <li class="breadcrumb-item active">Edit Student</li>
           </ol>
         </div>
       </div>
     </div><!-- /.container-fluid -->
   </section>
-
   <!-- Main content -->
   <section class="content">
     <div class="container-fluid">
@@ -27,24 +26,25 @@
           <!-- general form elements -->
           <div class="card card-primary">
             <!-- form start -->
-            <form role="form" action="{{route('students.store')}}" method="POST">
+            <form role="form" action="{{route('students.update', $student->id)}}" method="POST">
               @csrf
+              @method('PUT')
               <div class="card-body">
                 <div class="form-group">
                   <label>Full Name</label>
-                  <input type="text" name="name" class="form-control" placeholder="Enter email">
+                <input type="text" name="name" class="form-control" placeholder="Enter email" value="{{$student->name}}">
                 </div>
                 <div class="form-group">
                   <label>Email address</label>
-                  <input type="email" name="email" class="form-control" placeholder="Enter email">
+                  <input type="email" name="email" class="form-control" placeholder="Enter email"  value="{{$student->email}}">
                 </div>
                 <div class="form-group">
                   <label>Fin Number</label>
-                  <input type="text" name="fin" class="form-control" placeholder="Enter email">
+                  <input type="text" name="fin" class="form-control" placeholder="Enter email"  value="{{$student->fin}}">
                 </div>
                 <div class="form-group">
                   <label>Password</label>
-                  <input type="password" name="password" class="form-control" placeholder="Password">
+                  <input type="password" name="password" class="form-control" placeholder="Password" value="{{$student->password}}">
                 </div>
                 <div class="form-group">
                   <label>Password Confirmation</label>
@@ -54,7 +54,9 @@
                   <label>Major</label>
                   <select class="custom-select" name="major_id">
                     @foreach ($majors as $major)
-                  <option value="{{$major->id}}">{{$major->name}}</option>
+                      <option @if ($student->majors->id === $major->id)
+                          selected
+                      @endif value="{{$major->id}}">{{$major->name}}</option>
                     @endforeach
                   </select>
                 </div>

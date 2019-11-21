@@ -23,4 +23,9 @@ class Student extends Model
     public function images() {
         return $this->hasMany('App\Image');
     }
+
+    public function majors()
+    {
+        return $this->belongsTo('App\Major', 'major_id');
+    }
 }

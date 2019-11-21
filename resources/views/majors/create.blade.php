@@ -25,6 +25,15 @@
             <div class="row">
                 <!-- left column -->
                 <div class="col-md-12">
+                    @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
                     <!-- general form elements -->
                     <div class="card card-primary">
                         <!-- form start -->
@@ -37,7 +46,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Description</label>
-                                    <input type="text" name="description" class="form-control" placeholder="Enter Description">
+                                    <textarea type="text" name="description" class="form-control"
+                                        placeholder="Enter Description"></textarea>
                                 </div>
                                 <!-- /.card-body -->
                                 <div class="card-footer">

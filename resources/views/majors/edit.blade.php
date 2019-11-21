@@ -29,6 +29,15 @@
                 <!-- left column -->
                 <div class="col-md-12">
                     <!-- general form elements -->
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @endif
                     <div class="card card-primary">
                         <!-- form start -->
                         <form role="form" action="{{route('majors.update', $major->id)}}" method="POST">
@@ -41,7 +50,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Description</label>
-                                    <input type="text" name="description" class="form-control" placeholder="Enter Description" value="{{$major->description}}">
+                                    <textarea type="text" name="description" class="form-control" placeholder="Enter Description">{{$major->description}}</textarea>
                                 </div>
                                 <!-- /.card-body -->
                                 <div class="card-footer">

@@ -10,8 +10,7 @@
 <script src="{{asset('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.js')}}"></script>
 <script>
     $(function () {
-    $("#example1").DataTable();
-    $('#example2').DataTable({
+    $('#example1').DataTable({
     "paging": true,
     "lengthChange": false,
     "searching": false,
@@ -73,8 +72,8 @@
                                     <td>
                                         <a href="{{route('images.index', $student->id)}}" class="btn btn-primary"><i
                                                 class="fas fa-image"></i></a>
-                                        <button type="button" class="btn btn-primary"><i
-                                                class="fas fa-edit"></i></button>
+                                        <a href="{{route('students.edit', $student->id)}}" type="button" class="btn btn-primary"><i
+                                                class="fas fa-edit"></i></a>
                                         <button type="button" class="btn btn-secondary"><i
                                                 class="fas fa-info"></i></button>
                                         <button type="button" data-toggle="modal" data-target="#modal-danger"

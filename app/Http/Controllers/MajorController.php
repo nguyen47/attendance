@@ -37,6 +37,12 @@ class MajorController extends Controller
      */
     public function store(Request $request)
     {
+
+        $request->validate([
+            'name' => 'required|unique:majors|max:255',
+            'description' => 'required|max:255',
+        ]);
+
         $majors = new Major();
         $data = $request->all();
         $majors->create($data);
@@ -82,7 +88,12 @@ class MajorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $major = Major::findOrFail($id);
+        $request->validate([
+            'name' => 'required|max:255|unique:majors,name,'.$id,
+            'description' => 'required|max:255',
+            ]);
+            $major = Major::findOrFail($id);
+
         $data = $request->all();
         $major->update($data);
         $notification = array(

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Student;
-
+use App\Major;
 class StudentController extends Controller
 {
     /**
@@ -25,7 +25,8 @@ class StudentController extends Controller
      */
     public function create()
     {
-        return view('students.create');
+        $majors = Major::all();
+        return view('students.create', compact('majors'));
     }
 
     /**
@@ -68,7 +69,9 @@ class StudentController extends Controller
      */
     public function edit($id)
     {
-        //
+        $student = Student::findOrFail($id);
+        $majors = Major::all();
+        return view('students.edit', compact('student', 'majors'));
     }
 
     /**
@@ -80,7 +83,17 @@ class StudentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $student = Student::findOrFail($id);
+        $data = $request->all();
+        $data['password'] = bcrypt($request->password);
+        $student->create($data);
+
+        $notification = array(
+            'title' => 'Sucessful',
+            'message' => 'The student ' . $data['name'] . ' has been updated sucessfull', 
+            'alert-type' => 'success'
+        );
+        return redirect()->route('students.index')->with($notification);
     }
 
     /**
