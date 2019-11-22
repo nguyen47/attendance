@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Major;
-use Redirect,Response;
+use Redirect, Response;
 
 class MajorController extends Controller
 {
@@ -37,10 +37,9 @@ class MajorController extends Controller
      */
     public function store(Request $request)
     {
-
         $request->validate([
             'name' => 'required|unique:majors|max:255',
-            'description' => 'required|max:255',
+            'description' => 'required|max:255'
         ]);
 
         $majors = new Major();
@@ -49,10 +48,13 @@ class MajorController extends Controller
 
         $notification = array(
             'title' => 'Successful',
-            'message' => 'The major ' . $data['name'] . ' has been created successfully', 
+            'message' =>
+                'The major ' . $data['name'] . ' has been created successfully',
             'alert-type' => 'success'
         );
-        return redirect()->route('majors.index')->with($notification);
+        return redirect()
+            ->route('majors.index')
+            ->with($notification);
     }
 
     /**
@@ -89,20 +91,23 @@ class MajorController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|max:255|unique:majors,name,'.$id,
-            'description' => 'required|max:255',
-            ]);
-            $major = Major::findOrFail($id);
+            'name' => 'required|max:255|unique:majors,name,' . $id,
+            'description' => 'required|max:255'
+        ]);
+        $major = Major::findOrFail($id);
 
         $data = $request->all();
         $major->update($data);
         $notification = array(
             'title' => 'Successful',
-            'message' => 'The major ' . $data['name'] . ' has been updated successfully', 
+            'message' =>
+                'The major ' . $data['name'] . ' has been updated successfully',
             'alert-type' => 'success'
         );
 
-        return redirect()->route('majors.index')->with($notification);
+        return redirect()
+            ->route('majors.index')
+            ->with($notification);
     }
 
     /**
@@ -113,7 +118,7 @@ class MajorController extends Controller
      */
     public function destroy($id)
     {
-        $major = Major::where('id',$id)->delete();
+        $major = Major::where('id', $id)->delete();
         return Response::json($major);
     }
 }

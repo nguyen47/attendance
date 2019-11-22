@@ -24,6 +24,15 @@
       <div class="row">
         <!-- left column -->
         <div class="col-md-12">
+          @if ($errors->any())
+          <div class="alert alert-danger">
+            <ul>
+              @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+              @endforeach
+            </ul>
+          </div>
+          @endif
           <!-- general form elements -->
           <div class="card card-primary">
             <!-- form start -->
@@ -32,7 +41,7 @@
               <div class="card-body">
                 <div class="form-group">
                   <label>Full Name</label>
-                  <input type="text" name="name" class="form-control" placeholder="Enter email">
+                  <input type="text" name="name" class="form-control" placeholder="Enter full name">
                 </div>
                 <div class="form-group">
                   <label>Email address</label>
@@ -40,28 +49,28 @@
                 </div>
                 <div class="form-group">
                   <label>Fin Number</label>
-                  <input type="text" name="fin" class="form-control" placeholder="Enter email">
+                  <input type="text" name="fin" class="form-control" placeholder="Enter FIN nuber">
                 </div>
                 <div class="form-group">
                   <label>Password</label>
-                  <input type="password" name="password" class="form-control" placeholder="Password">
+                  <input type="password" name="password" class="form-control" placeholder="Enter password">
                 </div>
                 <div class="form-group">
                   <label>Password Confirmation</label>
-                  <input type="password" class="form-control" placeholder="Password">
+                  <input type="password" name="password_confirmation" class="form-control" placeholder="Enter password confirmation">
                 </div>
                 <div class="form-group">
                   <label>Major</label>
                   <select class="custom-select" name="major_id">
                     @foreach ($majors as $major)
-                  <option value="{{$major->id}}">{{$major->name}}</option>
+                    <option value="{{$major->id}}">{{$major->name}}</option>
                     @endforeach
                   </select>
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
                   <button type="submit" class="btn btn-primary">Submit</button>
-                  <button class="btn btn-default">Cancel</button>
+                  <a href="{{route('students.index')}}" class="btn btn-default">Cancel</a>
                 </div>
             </form>
           </div>

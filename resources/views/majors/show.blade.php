@@ -1,21 +1,19 @@
 @extends('template.layout')
 
 @section('content')
-@extends('template.layout')
-
-@section('content')
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Detail Major {{$major->name}}</h1>
+                    <h1>Major Major</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Detail Major</li>
+                        <li class="breadcrumb-item">Major Detail</li>
+                        <li class="breadcrumb-item active">{{$major->name}}</li>
                     </ol>
                 </div>
             </div>
@@ -46,7 +44,7 @@
                                 <!-- /.card-body -->
                                 <div class="card-footer">
                                     <a href="{{route('majors.edit', $major->id)}}" class="btn btn-primary">Edit</a>
-                                    <button class="btn btn-default">Cancel</button>
+                                    <a href="{{route('majors.index')}}" class="btn btn-default">Cancel</a>
                                 </div>
                         </form>
                     </div>
@@ -60,5 +58,4 @@
     </section>
     <!-- /.content -->
 </div>
-@endsection
-@endsection
+@endsection 

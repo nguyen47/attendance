@@ -52,7 +52,7 @@
                                 <!-- /.card-body -->
                                 <div class="card-footer">
                                     <button type="submit" class="btn btn-primary">Submit</button>
-                                    <button class="btn btn-default">Cancel</button>
+                                    <a href="{{route('majors.index')}}" class="btn btn-default">Cancel</a>
                                 </div>
                         </form>
                     </div>

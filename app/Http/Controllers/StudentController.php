@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Student;
 use App\Major;
+use Redirect, Response;
+use File;
+
 class StudentController extends Controller
 {
     /**
@@ -37,17 +40,27 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required|max:255',
+            'email' => 'required|max:255|unique:students',
+            'fin' => 'required|max:255|unique:students',
+            'password' => 'required|confirmed|min:6'
+        ]);
+
         $student = new Student();
-        $data = $request->all();
+        $data = $request->except('password_confirmation');
         $data['password'] = bcrypt($request->password);
         $student->create($data);
 
         $notification = array(
             'title' => 'Sucessful',
-            'message' => 'The student ' . $data['name'] . ' has been created sucessfull', 
+            'message' =>
+                'The student ' . $data['name'] . ' has been created sucessfull',
             'alert-type' => 'success'
         );
-        return redirect()->route('students.index')->with($notification);
+        return redirect()
+            ->route('students.index')
+            ->with($notification);
     }
 
     /**
@@ -58,7 +71,9 @@ class StudentController extends Controller
      */
     public function show($id)
     {
-        //
+        $student = Student::findOrFail($id);
+        $majors = Major::all();
+        return view('students.show', compact('student', 'majors'));
     }
 
     /**
@@ -83,17 +98,27 @@ class StudentController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required|max:255',
+            'email' => 'required|max:255|unique:students,email,' . $id,
+            'fin' => 'required|max:255|unique:students,fin,' . $id,
+            'password' => 'required|confirmed|min:6'
+        ]);
+
         $student = Student::findOrFail($id);
-        $data = $request->all();
+        $data = $request->except('password_confirmation');
         $data['password'] = bcrypt($request->password);
-        $student->create($data);
+        $student->update($data);
 
         $notification = array(
             'title' => 'Sucessful',
-            'message' => 'The student ' . $data['name'] . ' has been updated sucessfull', 
+            'message' =>
+                'The student ' . $data['name'] . ' has been updated sucessfull',
             'alert-type' => 'success'
         );
-        return redirect()->route('students.index')->with($notification);
+        return redirect()
+            ->route('students.index')
+            ->with($notification);
     }
 
     /**
@@ -104,6 +129,10 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $student = Student::where('id', $id);
+        $path = public_path() . '/uploads/' . "$id";
+        File::deleteDirectory($path);
+        $student->delete();
+        return Response::json($student);
     }
 }

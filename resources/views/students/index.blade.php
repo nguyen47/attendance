@@ -1,25 +1,7 @@
 @extends('template.layout')
-@section('title', 'Student')
 @section('css')
 <!-- DataTables -->
 <link rel="stylesheet" href="{{asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.css')}}">
-@endsection
-@section('js')
-<!-- DataTables -->
-<script src="{{asset('assets/plugins/datatables/jquery.dataTables.js')}}"></script>
-<script src="{{asset('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.js')}}"></script>
-<script>
-    $(function () {
-    $('#example1').DataTable({
-    "paging": true,
-    "lengthChange": false,
-    "searching": false,
-    "ordering": true,
-    "info": true,
-    "autoWidth": false,
-    });
-});
-</script>
 @endsection
 @section('content')
 <div class="content-wrapper">
@@ -33,7 +15,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">DataTables</li>
+                        <li class="breadcrumb-item active">Students</li>
                     </ol>
                 </div>
             </div>
@@ -72,12 +54,13 @@
                                     <td>
                                         <a href="{{route('images.index', $student->id)}}" class="btn btn-primary"><i
                                                 class="fas fa-image"></i></a>
-                                        <a href="{{route('students.edit', $student->id)}}" type="button" class="btn btn-primary"><i
-                                                class="fas fa-edit"></i></a>
-                                        <button type="button" class="btn btn-secondary"><i
-                                                class="fas fa-info"></i></button>
-                                        <button type="button" data-toggle="modal" data-target="#modal-danger"
-                                            class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                        <a href="{{route('students.edit', $student->id)}}" type="button"
+                                            class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                                        <a href="{{route('students.show',$student->id)}}" type="button" class="btn btn-secondary"><i
+                                                class="fas fa-info"></i></a>
+                                        <a href="javascript:void(0)" type="button" id="deleteItem"
+                                            data-id="{{ $student->id }}" class="btn btn-danger"><i
+                                                class="fas fa-trash"></i></a>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -95,29 +78,41 @@
     <!-- /.content -->
 </div>
 
-<form action="" method="post">
-    {{ method_field('delete') }}
-    {{ csrf_field() }}
-    <div class="modal fade" id="modal-danger">
-        <div class="modal-dialog">
-            <div class="modal-content bg-danger">
-                <div class="modal-header">
-                    <h4 class="modal-title">Are you sure?</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure to delete this item? You cannot recovery this item</p>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-outline-light">Yes, I am sure</button>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-</form>
+@section('js')
+<script src="{{asset('assets/plugins/datatables/jquery.dataTables.js')}}"></script>
+<script src="{{asset('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.js')}}"></script>
+
+<script>
+    $('#example1').DataTable({
+    "paging": true,
+    "lengthChange": false,
+    "searching": true,
+    "ordering": true,
+    "info": true,
+    "autoWidth": false,
+    });
+
+    $.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+    }
+});
+$(document).ready(function(){
+    $("#deleteItem").click(function() {
+        var id = $(this).data("id");
+        confirm("Are You sure want to delete !");
+        $.ajax({
+            type: "DELETE",
+            url: "{{ url('admin/students')}}"+'/'+id,
+            success: function (data) {
+                location.reload();
+            },
+            error: function (data) {
+                console.log('Error:', data);
+            }
+        });
+    });
+});
+</script>
+@endsection
 @endsection
