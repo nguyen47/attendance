@@ -1,5 +1,8 @@
 @extends('template.layout')
-
+@section('css')
+<!-- DataTables -->
+<link rel="stylesheet" href="{{asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.css')}}">
+@endsection
 @section('content')
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -7,12 +10,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Majors</h1>
+                    <h1>Attendance Report</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Majors</li>
+                        <li class="breadcrumb-item active">Attendance Report</li>
                     </ol>
                 </div>
             </div>
@@ -26,33 +29,35 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <a href="{{route('majors.create')}}" class="btn btn-primary"><i class="fas fa-plus"></i> New
-                            Major</a>
+                        <a href="{{route('attendances.create')}}" class="btn btn-primary"><i class="fas fa-plus"></i> New
+                            Student</a>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Major ID</th>
-                                    <th>Name</th>
-                                    <th>Created at</th>
+                                    <th>Attendance ID</th>
+                                    <th>Student Name</th>
+                                    <th>Check In</th>
+                                    <th>Check Out</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($majors as $major)
+                                @foreach ($attendances as $attendance)
                                 <tr>
-                                    <td>{{$major->id}}</td>
-                                    <td>{{$major->name}}</td>
-                                    <td>{{$major->created_at->diffForHumans()}}</td>
+                                    <td>{{$attendance->id}}</td>
+                                    <td>{{$attendance->students->name}}</td>
+                                    <td>{{$attendance->check_in}}</td>
+                                    <td>{{$attendance->check_out}}</td>
                                     <td>
-                                        <a href="{{route('majors.edit', $major->id)}}" type="button"
+                                        <a href="{{route('attendances.edit', $attendance->id)}}" type="button"
                                             class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                                        <a href="{{route('majors.show', $major->id)}}" type="button" class="btn btn-secondary"><i
+                                        <a href="{{route('attendances.show',$attendance->id)}}" type="button" class="btn btn-secondary"><i
                                                 class="fas fa-info"></i></a>
                                         <a href="javascript:void(0)" type="button" id="deleteItem"
-                                            data-id="{{ $major->id }}" class="btn btn-danger"><i
+                                            data-id="{{ $attendance->id }}" class="btn btn-danger"><i
                                                 class="fas fa-trash"></i></a>
                                     </td>
                                 </tr>
@@ -70,23 +75,19 @@
     </section>
     <!-- /.content -->
 </div>
-@section('css')
-<!-- DataTables -->
-<link rel="stylesheet" href="{{asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.css')}}">
-@endsection
 
 @section('js')
 <script src="{{asset('assets/plugins/datatables/jquery.dataTables.js')}}"></script>
 <script src="{{asset('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.js')}}"></script>
 
 <script>
-$('#example1').DataTable({
+    $('#example1').DataTable({
     "paging": true,
-    "lengthChange": true,
+    "lengthChange": false,
     "searching": true,
     "ordering": true,
     "info": true,
-    "autoWidth": true,
+    "autoWidth": false,
     });
 
     $.ajaxSetup({
@@ -100,7 +101,7 @@ $(document).ready(function(){
         confirm("Are You sure want to delete !");
         $.ajax({
             type: "DELETE",
-            url: "{{ url('admin/majors')}}"+'/'+id,
+            url: "{{ url('admin/attendances')}}"+'/'+id,
             success: function (data) {
                 location.reload();
             },

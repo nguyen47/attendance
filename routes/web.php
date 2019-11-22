@@ -16,10 +16,19 @@ Route::get('/', function () {
 });
 
 Route::group(['prefix' => 'admin'], function () {
+    Route::get('/', 'DashboardController@index')->name('dashboard.index');
     Route::resource('students', 'StudentController');
     Route::get('images/{id}', 'ImageController@index')->name('images.index');
-    Route::post('images/upload/store', 'ImageController@fileStore')->name('images.fileStore');
-    Route::post('images/delete', 'ImageController@fileDestroy')->name('images.fileDestroy');
-    Route::get('images/removeSingleImage/{id}', 'ImageController@removeImage')->name('images.removeImage');
+    Route::post('images/upload/store', 'ImageController@fileStore')->name(
+        'images.fileStore'
+    );
+    Route::post('images/delete', 'ImageController@fileDestroy')->name(
+        'images.fileDestroy'
+    );
+    Route::get(
+        'images/removeSingleImage/{id}',
+        'ImageController@removeImage'
+    )->name('images.removeImage');
     Route::resource('majors', 'MajorController');
+    Route::resource('attendances', 'AttendanceController');
 });

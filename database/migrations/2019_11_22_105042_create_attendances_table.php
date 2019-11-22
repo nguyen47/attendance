@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateStudentsTable extends Migration
+class CreateAttendancesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,22 +13,18 @@ class CreateStudentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('students', function (Blueprint $table) {
+        Schema::create('attendances', function (Blueprint $table) {
             $table->uuid('id');
             $table->primary('id');
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('fin');
-            $table->string('password');
-
-            $table->string('major_id');
-
+            $table->string('student_id');
             $table
-                ->foreign('major_id')
+                ->foreign('student_id')
                 ->references('id')
-                ->on('majors')
+                ->on('students')
                 ->onDelete('cascade');
-            $table->timestamps();
+            $table->dateTime('check_in')->nullable();
+            $table->dateTime('check_out')->nullable();
+            $table->timestamps(); // Check in and check out
         });
     }
 
@@ -39,6 +35,6 @@ class CreateStudentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('students');
+        Schema::dropIfExists('attendances');
     }
 }

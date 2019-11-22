@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Informatics Academy | @yield('title')</title>
+  <title>Informatics Academy</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="_token" content="{{csrf_token()}}" />
@@ -44,10 +44,10 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
-      <a href="../../index3.html" class="brand-link">
+      <a href="{{route('dashboard.index')}}" class="brand-link">
         <img src="{{asset('assets/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo"
           class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">AdminLTE 3</span>
+        <span class="brand-text font-weight-light">Informatics Academy</span>
       </a>
 
       <!-- Sidebar -->
@@ -77,7 +77,7 @@
       <div class="float-right d-none d-sm-block">
         <b>Version</b> 1.0
       </div>
-      <strong>Copyright &copy; 2014-2019 <a href="https://htknguyen.com">Nguyen Hoang</a>.</strong> All rights
+      <strong>Copyright &copy; 2019 <a href="https://htknguyen.com">Nguyen Hoang</a>.</strong> All rights
       reserved.
     </footer>
 

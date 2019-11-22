@@ -17,7 +17,11 @@ class CreateImagesTable extends Migration
             $table->uuid('id');
             $table->primary('id');
             $table->string('student_id');
-            $table->foreign('student_id')->references('id')->on('students') ->onDelete('cascade');
+            $table
+                ->foreign('student_id')
+                ->references('id')
+                ->on('students')
+                ->onDelete('cascade');
             $table->string('url');
             $table->timestamps();
         });
