@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Attendance;
+use App\Student;
+use Redirect, Response;
 
 class AttendanceController extends Controller
 {
@@ -15,7 +17,7 @@ class AttendanceController extends Controller
     public function index()
     {
         $attendances = Attendance::all();
-        return view('attendance.index', compact('attendances'));
+        return view('attendances.index', compact('attendances'));
     }
 
     /**
@@ -25,7 +27,8 @@ class AttendanceController extends Controller
      */
     public function create()
     {
-        //
+        $students = Student::select('id', 'name')->get();
+        return view('attendances.create', compact('students'));
     }
 
     /**
@@ -36,7 +39,25 @@ class AttendanceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        $seperateTime = explode(' - ', $request->checkTime);
+        $data['check_in'] = $seperateTime[0];
+        $data['check_out'] = $seperateTime[1];
+        unset($data['checkTime']);
+        $attendance = new Attendance();
+        $attendance->create($data);
+
+        $notification = array(
+            'title' => 'Sucessful',
+            'message' =>
+                'The attendance ' .
+                $attendance['id'] .
+                ' has been created sucessfull',
+            'alert-type' => 'success'
+        );
+        return redirect()
+            ->route('attendances.index')
+            ->with($notification);
     }
 
     /**
@@ -47,7 +68,15 @@ class AttendanceController extends Controller
      */
     public function show($id)
     {
-        //
+        $findAttendance = Attendance::findOrFail($id);
+        $attendances = Attendance::where(
+            'student_id',
+            $findAttendance->student_id
+        )->get();
+        return view(
+            'attendances.show',
+            compact('attendances', 'findAttendance')
+        );
     }
 
     /**
@@ -79,8 +108,20 @@ class AttendanceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $attendance = Attendance::findOrFail($request->attendance_id);
+        $attendance->delete();
+        $notification = array(
+            'title' => 'Sucessful',
+            'message' =>
+                'The attendance ' .
+                $attendance['id'] .
+                ' has been deleted sucessfull',
+            'alert-type' => 'success'
+        );
+        return redirect()
+            ->route('attendances.index')
+            ->with($notification);
     }
 }

@@ -116,9 +116,18 @@ class MajorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $major = Major::where('id', $id)->delete();
-        return Response::json($major);
+        $major = Major::findOrFail($request->major_id);
+        $major->delete();
+        $notification = array(
+            'title' => 'Sucessful',
+            'message' =>
+                'The major ' . $major['name'] . ' has been deleted sucessfull',
+            'alert-type' => 'success'
+        );
+        return redirect()
+            ->route('majors.index')
+            ->with($notification);
     }
 }

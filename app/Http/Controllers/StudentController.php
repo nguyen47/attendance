@@ -127,12 +127,22 @@ class StudentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $student = Student::where('id', $id);
-        $path = public_path() . '/uploads/' . "$id";
+        $student = Student::findOrFail($request->student_id);
+        $path = public_path() . '/uploads/' . "$student->id";
         File::deleteDirectory($path);
         $student->delete();
-        return Response::json($student);
+        $notification = array(
+            'title' => 'Sucessful',
+            'message' =>
+                'The student ' .
+                $student['name'] .
+                ' has been deleted sucessfull',
+            'alert-type' => 'success'
+        );
+        return redirect()
+            ->route('students.index')
+            ->with($notification);
     }
 }
