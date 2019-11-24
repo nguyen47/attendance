@@ -87,7 +87,9 @@ class AttendanceController extends Controller
      */
     public function edit($id)
     {
-        //
+        $attendance = Attendance::findOrFail($id);
+        $students = Student::select('id', 'name')->get();
+        return view('attendances.edit', compact('attendance', 'students'));
     }
 
     /**
@@ -99,7 +101,27 @@ class AttendanceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        $seperateTime = explode(' - ', $request->checkTime);
+        $data['check_in'] = $seperateTime[0];
+        $data['check_out'] = $seperateTime[1];
+        unset($data['checkTime']);
+        unset($data['start_date']);
+        unset($data['end_date']);
+        $attendance = Attendance::findOrFail($id);
+        $attendance->update($data);
+
+        $notification = array(
+            'title' => 'Sucessful',
+            'message' =>
+                'The attendance ' .
+                $attendance['id'] .
+                ' has been updated sucessfull',
+            'alert-type' => 'success'
+        );
+        return redirect()
+            ->route('attendances.index')
+            ->with($notification);
     }
 
     /**

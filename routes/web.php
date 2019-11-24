@@ -12,8 +12,20 @@
 */
 
 Route::get('/', function () {
-    return view('template.layout');
+    return view('welcome');
 });
+
+Route::get('/login', function () {
+    return view('authentication.login');
+});
+
+Route::get('getFolderName', 'RecognizeController@getFolderName')->name(
+    'getFolderName'
+);
+
+Route::get('getFileName/{folderName}', 'RecognizeController@getFileName')->name(
+    'getFileName'
+);
 
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/', 'DashboardController@index')->name('dashboard.index');

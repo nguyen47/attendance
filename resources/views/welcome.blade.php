@@ -1,100 +1,79 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="en">
 
-        <title>Laravel</title>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="{{asset('assets/face-api.min.js')}}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.25/webcam.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+  <title>Final Project</title>
+</head>
 
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0;
+<body>
+  <div class="container">
+    <div id="my_camera" style="width:640px; height:480px;"></div>
+    <a href="javascript:void(take_snapshot())">Take Snapshot</a>
+  </div>
+
+  <script>
+    Webcam.attach('#my_camera');
+    async function take_snapshot() {
+      Webcam.snap(async function(data_uri) {
+        const input = $('<img id="myImg" src="'+data_uri+'" />');
+        const results = await faceapi
+          .detectAllFaces(input[0], new faceapi.SsdMobilenetv1Options())
+          .withFaceLandmarks()
+          .withFaceDescriptors();
+          const labeledFaceDescriptors = await detectAllLabeledFaces();
+          const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.7);
+          if (!results.length) {
+            console.log('Face Not Found');
+          }
+          for (let i = 0; i < results.length; i++) {
+            const bestMatch = faceMatcher.findBestMatch(results[i].descriptor);
+            console.log(bestMatch);
+          }
+      });
+    }
+
+    async function detectAllLabeledFaces() {
+      const loadImages = await fetch("{{route('getFolderName')}}");
+      const labelsUnFormated = await loadImages.text();
+      const labels = JSON.parse(labelsUnFormated);
+      return Promise.all(
+        labels.map(async label => {
+          const descriptions = [];
+          const url = `http://127.0.0.1:8000/getFileName/${label}`;
+            const imageArray = await fetch(url);
+            const responseImageArray = await imageArray.text();
+            const converImageArray = JSON.parse(responseImageArray);
+            for (let i = 0; i < converImageArray.length; i++) {
+              const img = await faceapi.fetchImage(
+                `http://127.0.0.1:8000/uploads/${label}/${converImageArray[i]}`
+              );
+              const detection = await faceapi
+                .detectSingleFace(img)
+                .withFaceLandmarks()
+                .withFaceDescriptor();
+              descriptions.push(detection.descriptor);
             }
+            return new faceapi.LabeledFaceDescriptors(label, descriptions);
+        })
+      );
+    }
+    
+    (async() => {
+      await faceapi.nets.ssdMobilenetv1.loadFromUri("{{asset('assets/models')}}");
+      await faceapi.nets.faceRecognitionNet.loadFromUri("{{asset('assets/models')}}");
+      await faceapi.nets.faceLandmark68Net.loadFromUri("{{asset('assets/models')}}");
+      console.log('Ready!!');
+    })();
+		
+  </script>
+</body>
 
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 13px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    Final Project
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://vapor.laravel.com">Vapor</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
-            </div>
-        </div>
-    </body>
 </html>
