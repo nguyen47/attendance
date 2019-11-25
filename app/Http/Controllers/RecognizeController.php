@@ -38,13 +38,13 @@ class RecognizeController extends Controller
         if ($attendance !== null) {
             $attendance->check_out = \Carbon\Carbon::now();
             $attendance->update();
-            return 'Update OK';
+            return 'update';
         }
 
         $newAttendance = new Attendance();
         $newAttendance->student_id = $id;
         $newAttendance->check_in = \Carbon\Carbon::now();
         $newAttendance->save();
-        return 'New OK';
+        return 'new';
     }
 }
