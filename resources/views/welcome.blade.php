@@ -9,20 +9,41 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.25/webcam.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
-
   <title>Final Project</title>
+  <style>
+
+  </style>
 </head>
 
 <body>
-  <div class="container">
-    <div id="my_camera" style="width:640px; height:480px;"></div>
-    <a href="javascript:void(take_snapshot())">Take Snapshot</a>
-  </div>
+  <main role="main">
+      <section class="text-center">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="justify-content-center" id="my_camera"></div>
+              <a class="btn btn-primary" id="takeSnap" href="javascript:void(take_snapshot())">Take Snapshot</a>
+            </div>
+          </div>
+        </div>
+      </section>
+  </main>
 
   <script>
+    Webcam.set({
+        width: 620,
+        height: 480,
+        dest_width: 640,
+        dest_height: 480,
+        image_format: 'jpeg',
+        jpeg_quality: 90,
+        force_flash: false
+    });
     Webcam.attach('#my_camera');
     async function take_snapshot() {
       Webcam.snap(async function(data_uri) {
+        $("#takeSnap").attr("disabled", true);
+        Webcam.freeze();
         const input = $('<img id="myImg" src="'+data_uri+'" />');
         const results = await faceapi
           .detectAllFaces(input[0], new faceapi.SsdMobilenetv1Options())
@@ -35,9 +56,18 @@
           }
           for (let i = 0; i < results.length; i++) {
             const bestMatch = faceMatcher.findBestMatch(results[i].descriptor);
-            console.log(bestMatch);
+            await checkAttendance(bestMatch);
           }
+          Webcam.unfreeze();
+          $("#takeSnap").attr("disabled", false);
       });
+    }
+
+    async function checkAttendance(id) {
+      const student_id = id._label;
+      const checking = await fetch(`http://127.0.0.1:8000/checkAttendance/${student_id}`);
+      const result = await checking.text();
+      console.log(result);
     }
 
     async function detectAllLabeledFaces() {

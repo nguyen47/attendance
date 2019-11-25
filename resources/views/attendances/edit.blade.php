@@ -101,7 +101,6 @@
       "startDate": start_date,
       "endDate": end_date,
       "timePickerSeconds": true,
-      timePickerIncrement: 30,
       locale: {
         format: 'YYYY-MM-DD H:mm:ss'
       }

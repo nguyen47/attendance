@@ -92,7 +92,6 @@
     $('#reservationtime').daterangepicker({
       timePicker: true,
       "timePickerSeconds": true,
-      timePickerIncrement: 30,
       locale: {
         format: 'YYYY-MM-DD H:mm:ss'
       }

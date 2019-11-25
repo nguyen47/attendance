@@ -27,6 +27,11 @@ Route::get('getFileName/{folderName}', 'RecognizeController@getFileName')->name(
     'getFileName'
 );
 
+// This method must use POST Request. Update Later. I have no time to do the POST Request @@
+Route::get('checkAttendance/{id}', 'RecognizeController@checkAttendance')->name(
+    'checkAttendance'
+);
+
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/', 'DashboardController@index')->name('dashboard.index');
     Route::resource('students', 'StudentController');
