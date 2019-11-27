@@ -14,7 +14,7 @@ class AttendanceSeeder extends Seeder
     {
         $faker = Faker\Factory::create();
         $students = Student::all()->pluck('id');
-        $limit = 50;
+        $limit = 20;
 
         for ($i = 0; $i < $limit; $i++) {
             DB::table('attendances')->insert([

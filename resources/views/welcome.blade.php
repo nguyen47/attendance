@@ -97,10 +97,10 @@
 
   <script>
     Webcam.set({
-        width: 640,
-        height: 480,
-        dest_width: 640,
-        dest_height: 480,
+        width: 1080,
+        height: 520,
+        dest_width: 1280,
+        dest_height: 720,
         image_format: 'jpeg',
         jpeg_quality: 90,
         force_flash: false
@@ -118,12 +118,14 @@
           const labeledFaceDescriptors = await detectAllLabeledFaces();
           const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.7);
           if (!results.length) {
-            toastr.error('Face Detect Failed. Please Try Again', 'Error!')
+            toastr.error('Face Detect Failed. Please Try Again', 'Error!');
+            Webcam.unfreeze();
           }
           for (let i = 0; i < results.length; i++) {
             const bestMatch = faceMatcher.findBestMatch(results[i].descriptor);
             if (bestMatch._label === 'unknown') {
               toastr.error('Face Not Found. Please Contact To Our Staff', 'Error!');
+              Webcam.unfreeze();
               return;
             }
             const notification = await checkAttendance(bestMatch);

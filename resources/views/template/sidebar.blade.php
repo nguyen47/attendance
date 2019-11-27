@@ -58,29 +58,37 @@
                 </ul>
             </li>
             <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa fa-check
-                        "></i>
-                        <p>
-                            Attendance
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                        <a href="{{route('attendances.index')}}" class="nav-link">
-                                <i class="far fa fa-list nav-icon"></i>
-                                <p>List</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{route('attendances.create')}}" class="nav-link">
-                                <i class="far fa fa-plus nav-icon"></i>
-                                <p>Add New</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa fa-check
+                    "></i>
+                    <p>
+                        Attendance
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                    <a href="{{route('attendances.index')}}" class="nav-link">
+                            <i class="far fa fa-list nav-icon"></i>
+                            <p>List</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{route('attendances.create')}}" class="nav-link">
+                            <i class="far fa fa-plus nav-icon"></i>
+                            <p>Add New</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a href="{{route('mail.index')}}" class="nav-link">
+                    <i class="nav-icon fas fa-envelope"></i>
+                    <p>
+                        Emails
+                    </p>
+                </a>
+            </li>
         <li class="nav-header">Settings</li>
     </ul>
 </nav>

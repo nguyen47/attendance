@@ -13,9 +13,13 @@
 
 Route::get('/', 'FrontPageController@index')->name('frontPage.index');
 
-Route::get('/login', function () {
-    return view('authentication.login');
-});
+Route::get('/login', 'AuthController@login')->name('login');
+Route::post('/login', 'AuthController@doLogin')->name('doLogin');
+Route::get('/logout', 'AuthController@logout')->name('logout');
+
+Route::get('/students/{id}', 'FontPageStudentController@index')
+    ->name('FontPageStudentController.index')
+    ->middleware('student');
 
 Route::get('getFolderName', 'RecognizeController@getFolderName')->name(
     'getFolderName'
@@ -30,7 +34,7 @@ Route::get('checkAttendance/{id}', 'RecognizeController@checkAttendance')->name(
     'checkAttendance'
 );
 
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('/', 'DashboardController@index')->name('dashboard.index');
     Route::resource('students', 'StudentController');
     Route::get('images/{id}', 'ImageController@index')->name('images.index');
@@ -46,4 +50,6 @@ Route::group(['prefix' => 'admin'], function () {
     )->name('images.removeImage');
     Route::resource('majors', 'MajorController');
     Route::resource('attendances', 'AttendanceController');
+    Route::get('mail', 'EmailController@index')->name('mail.index');
+    Route::post('mail', 'EmailController@sendEmail')->name('mail.sendEmail');
 });

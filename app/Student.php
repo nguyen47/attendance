@@ -4,9 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Uuid;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class Student extends Model
+class Student extends Authenticatable
 {
+    use Notifiable;
     /**
      *  Setup model event hooks
      */
@@ -19,8 +22,10 @@ class Student extends Model
     }
     public $incrementing = false;
     protected $guarded = [];
+    protected $hidden = ['password'];
 
-    public function images() {
+    public function images()
+    {
         return $this->hasMany('App\Image');
     }
 
