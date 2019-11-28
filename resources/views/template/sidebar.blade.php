@@ -89,6 +89,6 @@
                     </p>
                 </a>
             </li>
-        <li class="nav-header">Settings</li>
+        {{-- <li class="nav-header">Settings</li> --}}
     </ul>
 </nav>

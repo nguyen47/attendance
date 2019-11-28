@@ -22,23 +22,23 @@
       timeout: 5000,
       removedfile: function(file) 
         {
-            var name = file.upload.filename;
-            $.ajax({
-                headers: {
-                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') 
-                },
-                type: 'POST',
-                url: '{{ route('images.fileDestroy') }}',
-                data: {filename: name},
-                success: function (data){
-                    console.log("File has been successfully removed!!", data);
-                },
-                error: function(e) {
-                    console.log(e);
-                }});
-                var fileRef;
-                return (fileRef = file.previewElement) != null ? 
-                fileRef.parentNode.removeChild(file.previewElement) : void 0;
+          var name = file.upload.filename;
+          $.ajax({
+              headers: {
+              'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') 
+              },
+              type: 'POST',
+              url: '{{ route('images.fileDestroy') }}',
+              data: {filename: name},
+              success: function (data){
+                  console.log("File has been successfully removed!!", data);
+              },
+              error: function(e) {
+                  console.log(e);
+              }});
+              var fileRef;
+              return (fileRef = file.previewElement) != null ? 
+              fileRef.parentNode.removeChild(file.previewElement) : void 0;
         },
       success: function(file, response) 
       {
@@ -59,12 +59,12 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Student's Image</h1>
+          <h1>{{$student->name}} Image</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active">Student's Image</li>
+            <li class="breadcrumb-item active">{{$student->name}} Image</li>
           </ol>
         </div>
       </div>
@@ -107,12 +107,12 @@
               <div class="row">
                 @foreach ($images as $image)
                 <div class="col-sm-2">
-                  <a href="https://via.placeholder.com/1200/FFFFFF.png?text=1" data-toggle="lightbox"
-                    data-title="sample 1 - white" data-gallery="gallery">
-                  <img src="{{url("uploads/$id/$image->url")}}" class="img-fluid mb-2"
-                      alt="white sample" />
+                  <a href="{{url("uploads/$id/$image->url")}}" data-toggle="lightbox" data-title="sample 1 - white"
+                    data-gallery="gallery">
+                    <img src="{{url("uploads/$id/$image->url")}}" class="img-fluid mb-2" alt="white sample" />
                   </a>
-                  <a href="{{route('images.removeImage', $image->id)}}" class="btn btn-danger" style="margin: 0 auto">Remove</a>
+                  <a href="{{route('images.removeImage', $image->id)}}" class="btn btn-danger"
+                    style="margin: 0 auto">Remove</a>
                 </div>
                 @endforeach
               </div>

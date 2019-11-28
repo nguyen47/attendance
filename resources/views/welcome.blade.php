@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="{{asset('assets/plugins/fontawesome-free/css/all.min.css')}}">
   <script src="{{asset('assets/face-api.min.js')}}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.25/webcam.min.js"></script>
@@ -57,7 +58,7 @@
           <div class="col-12">
             <div class="justify-content-center" style="margin:auto" id="my_camera"></div>
             <a class="btn btn-primary" style="margin-top: 20px; margin-bottom: 20px" id="takeSnap"
-              href="javascript:void(take_snapshot())">Take Snapshot</a>
+              href="javascript:void(take_snapshot())"><i class="fa fa-camera fa-5x" aria-hidden="true"></i>            </a>
           </div>
         </div>
       </div>
@@ -116,7 +117,7 @@
           .withFaceLandmarks()
           .withFaceDescriptors();
           const labeledFaceDescriptors = await detectAllLabeledFaces();
-          const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.7);
+          const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.5); // 0.5
           if (!results.length) {
             toastr.error('Face Detect Failed. Please Try Again', 'Error!');
             Webcam.unfreeze();

@@ -14,7 +14,7 @@ class StudentSeeder extends Seeder
     {
         $faker = Faker\Factory::create();
         $majors = Major::all()->pluck('id');
-        $limit = 10;
+        $limit = 3;
 
         for ($i = 0; $i < $limit; $i++) {
             DB::table('students')->insert([
