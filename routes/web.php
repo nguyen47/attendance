@@ -16,7 +16,9 @@ Route::get('/', 'FrontPageController@index')->name('frontPage.index');
 Route::get('/login', 'AuthController@login')->name('login');
 Route::post('/login', 'AuthController@doLogin')->name('doLogin');
 Route::get('/logout', 'AuthController@logout')->name('logout');
-
+Route::get('sutdents/logout', 'AuthController@studentLogout')->name(
+    'studentLogout'
+);
 Route::get('/students/{id}', 'FontPageStudentController@index')
     ->name('FontPageStudentController.index')
     ->middleware('student');

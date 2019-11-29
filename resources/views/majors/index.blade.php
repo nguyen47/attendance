@@ -85,7 +85,7 @@
                     {{ csrf_field() }}
                     {{ method_field('DELETE') }}
                     <input type="hidden" name="major_id" id="major_id" value="">
-                    <p>Are you sure?</p>
+                    <p>Are you sure? It will delete all the students in this major</p>
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

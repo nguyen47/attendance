@@ -113,7 +113,7 @@
         Webcam.freeze();
         const input = $('<img id="myImg" src="'+data_uri+'" />');
         const results = await faceapi
-          .detectAllFaces(input[0], new faceapi.SsdMobilenetv1Options())
+          .detectAllFaces(input[0], new faceapi.SsdMobilenetv1Options({ minConfidence: 0.8 }))
           .withFaceLandmarks()
           .withFaceDescriptors();
           const labeledFaceDescriptors = await detectAllLabeledFaces();
